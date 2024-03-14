@@ -21,9 +21,9 @@ Route::get('/', function () {
 });
 
 Route::get('/login', [UserLogin::class, 'index']);
-Route::get('/pre_register', [UserRegister::class, 'pre_register'])->name('pre_register');
-Route::get('/complete_register', [UserRegister::class, 'complete_register'])->name('complete_register');
-Route::get('/activation', [UserRegister::class, 'activation'])->name('activation');
+Route::get('/pre_registration', [UserRegister::class, 'pre_register'])->name('pre_register');
+Route::get('/complete_registration', [UserRegister::class, 'complete_register'])->name('complete_register');
+Route::get('/account_activation', [UserRegister::class, 'activation'])->name('activation');
 
 Route::post('/login', [UserLogin::class, 'login'])->name('login');
 Route::post('/pregister', [UserRegister::class, 'pregister'])->name('pregister');
@@ -31,5 +31,4 @@ Route::post('/cregister', [UserRegister::class, 'cregister'])->name('cregister')
 Route::post('/activate', [UserRegister::class, 'activate'])->name('activate');
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home')
-;
+Route::get('/home', [HomeController::class, 'index'])->name('home');

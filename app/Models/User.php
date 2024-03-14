@@ -33,7 +33,12 @@ class User extends Authenticatable
         'bankName',
         'profileImage',
         'activationCode',
-        'status'
+        'status',
+        'affiliateWallet',
+        'taskWallet',
+        'indirectBonusWallet',
+        'bonus4',
+        'bonus5'
     ];
 
     /**

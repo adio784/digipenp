@@ -40,6 +40,7 @@ class UserRegister extends Controller
 
     public function pregister(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'fullname'      => 'required|string|max:255',
             'email'         => 'required|string|max:255|unique:users',
@@ -50,14 +51,15 @@ class UserRegister extends Controller
             'state'         => 'required|string|max:55',
             'referral'      => 'required|string|max:55',
             'username'      => 'required|string|max:55',
-            'password'      => ['required', 'confirm', 'string', 'max:255', 'min:8', Rules\Password::defaults()],
+            'password'      => ['required', 'confirmed', 'string', 'max:255', 'min:8', Rules\Password::defaults()],
         ]);
 
+
+
         // Avatar::create($fullname)->toBase64(); Avatar::create($fullname)->save(storage_path(path: 'Avatars/avatar-' . $request->lastname[0] . $request->firstname . '.png'));
-        $fullname = $request->lastname . ' ' . $request->firstname;
+        $fullname = $request->fullname;
         $path = public_path('Avatars/avatar-');
         $ProfileImage = 'wdefefefe'; //Avatar::create($fullname)->tosvg();
-
 
         $Create                 = new User();
         $Create->fullname      = $request->fullname;
@@ -73,11 +75,9 @@ class UserRegister extends Controller
         $Create->password       = Hash::make($request->password);
         $Create->save();
 
-        $_SESSION['uid'] = $Create->id;
-
         if ($Create->save()) {
 
-            return redirect('complete_register')->with(['userId' => $Create->id]);
+            return redirect('complete_registration')->with(['userId' => $Create->id]);
         } else {
 
             return back()->with('fail', 'Error Occurred, try Later');
@@ -107,7 +107,7 @@ class UserRegister extends Controller
 
             if ($updateUser) {
 
-                return redirect('activation')->with(['userId' => $userId]);
+                return redirect('account_activation')->with(['userId' => $userId]);
             } else {
 
                 return back()->with('fail', 'Error Occurred, try Later');
@@ -123,7 +123,7 @@ class UserRegister extends Controller
 
         $actCode = ActivationCode::where('activationCode', $request->activationCode)->where('status', 1)->first();
 
-        if ( !empty($actCode) ) {
+        if (!empty($actCode)) {
             $userId = $request->user_id;
 
             $activateUser = User::whereId($userId)
@@ -140,13 +140,7 @@ class UserRegister extends Controller
 
             if ($activateUser) {
 
-                if (!Auth::attempt($request->only('username', 'password'))) {
-                    throw ValidationException::withMessages([
-                        'Username' => ['The provided credentials are incorrect.'],
-                    ]);
-                }
-
-                return redirect('home')->with('success', 'Account Successfully Created, You are Welcome');
+                return redirect('login')->with('success', 'Account Successfully Created, Now Login');
             } else {
 
                 return back()->with('fail', 'Error Occurred, try Later');

@@ -29,6 +29,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profileImage', 500);
             $table->string('activationCode')->nullable();
+            $table->decimal('affiliateWallet')->default(3000);
+            $table->decimal('taskWallet')->default(1000);
+            $table->decimal('indirectBonusWallet')->default(5000);
+            $table->decimal('bonus4');
+            $table->decimal('bonus5');
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
